@@ -164,7 +164,7 @@ typedef IMP (^RSSWizzleImpProvider)(void);
 
 @interface RSSwizzleInfo()
 @property (nonatomic,copy) RSSWizzleImpProvider impProviderBlock;
-@property (nonatomic,copy) RSSWizzleImpProvider superClassImpProviderBlock;
+@property (nonatomic,copy) RSSWizzleImpProvider superImpProviderBlock;
 @property (nonatomic, readwrite) SEL selector;
 @end
 
@@ -176,10 +176,10 @@ typedef IMP (^RSSWizzleImpProvider)(void);
     return (RSSwizzleOriginalIMP)_impProviderBlock();
 }
 
-- (RSSwizzleOriginalIMP)getSuperClassImplementation {
-    NSAssert(_superClassImpProviderBlock,nil);
+- (RSSwizzleOriginalIMP)getSuperImplementation {
+    NSAssert(_superImpProviderBlock,nil);
     // Casting IMP to RSSwizzleOriginalIMP to force user casting.
-    return (RSSwizzleOriginalIMP)_superClassImpProviderBlock();
+    return (RSSwizzleOriginalIMP)_superImpProviderBlock();
 }
 
 @end
@@ -227,7 +227,7 @@ static void swizzle(Class classToSwizzle,
     };
 
     // This block will be called by the client to get super class implementation and call it.
-    RSSWizzleImpProvider superClassImpProvider = ^IMP{
+    RSSWizzleImpProvider superImpProvider = ^IMP{
         Class superclass = class_getSuperclass(classToSwizzle);
         IMP imp = method_getImplementation(class_getInstanceMethod(superclass,selector));
         return imp;
@@ -236,7 +236,7 @@ static void swizzle(Class classToSwizzle,
     RSSwizzleInfo *swizzleInfo = [RSSwizzleInfo new];
     swizzleInfo.selector = selector;
     swizzleInfo.impProviderBlock = originalImpProvider;
-    swizzleInfo.superClassImpProviderBlock = superClassImpProvider;
+    swizzleInfo.superImpProviderBlock = superImpProvider;
 
     // We ask the client for the new implementation block.
     // We pass swizzleInfo as an argument to factory block, so the client can

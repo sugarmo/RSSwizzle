@@ -153,7 +153,7 @@ typedef void (*RSSwizzleOriginalIMP)(void /* id, SEL, ... */ );
 -(RSSwizzleOriginalIMP)getOriginalImplementation;
 
 
--(RSSwizzleOriginalIMP)getSuperClassImplementation;
+-(RSSwizzleOriginalIMP)getSuperImplementation;
 
 /// The selector of the swizzled method.
 @property (nonatomic, readonly) SEL selector;
