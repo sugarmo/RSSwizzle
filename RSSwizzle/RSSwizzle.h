@@ -133,6 +133,8 @@
 
 #pragma mark - Main API
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  A function pointer to the original implementation of the swizzled method.
  */
@@ -173,7 +175,7 @@ typedef void (*RSSwizzleOriginalIMP)(void /* id, SEL, ... */ );
     Its signature should be: `method_return_type ^(id self, method_args...)`. 
     The selector is not available as a parameter to this block.
  */
-typedef id (^RSSwizzleImpFactoryBlock)(RSSwizzleInfo *swizzleInfo);
+typedef id _Nonnull (^RSSwizzleImpFactoryBlock)(RSSwizzleInfo *swizzleInfo);
 
 typedef NS_ENUM(NSUInteger, RSSwizzleMode) {
     /// RSSwizzle always does swizzling.
@@ -264,7 +266,7 @@ typedef NS_ENUM(NSUInteger, RSSwizzleMode) {
                      inClass:(Class)classToSwizzle
                newImpFactory:(RSSwizzleImpFactoryBlock)factoryBlock
                         mode:(RSSwizzleMode)mode
-                         key:(const void *)key;
+                         key:(nullable const void *)key;
 
 #pragma mark └ Swizzle Class method
 
@@ -311,6 +313,8 @@ typedef NS_ENUM(NSUInteger, RSSwizzleMode) {
             newImpFactory:(RSSwizzleImpFactoryBlock)factoryBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #pragma mark - Implementation details
 // Do not write code that depends on anything below this line.

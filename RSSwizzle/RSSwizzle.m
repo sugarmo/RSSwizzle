@@ -221,7 +221,16 @@ static void swizzle(Class classToSwizzle,
             // If the class does not implement the method
             // we need to find an implementation in one of the superclasses.
             Class superclass = class_getSuperclass(classToSwizzle);
-            imp = method_getImplementation(class_getInstanceMethod(superclass,selector));
+
+            Method method = class_getInstanceMethod(superclass,selector);
+
+            NSCAssert(NULL != method,
+                      @"Selector %@ not found in %@ methods of class %@.",
+                      NSStringFromSelector(selector),
+                      class_isMetaClass(superclass) ? @"class" : @"instance",
+                      superclass);
+
+            imp = method_getImplementation(method);
         }
         return imp;
     };
@@ -229,7 +238,16 @@ static void swizzle(Class classToSwizzle,
     // This block will be called by the client to get super class implementation and call it.
     RSSWizzleImpProvider superImpProvider = ^IMP{
         Class superclass = class_getSuperclass(classToSwizzle);
-        IMP imp = method_getImplementation(class_getInstanceMethod(superclass,selector));
+
+        Method method = class_getInstanceMethod(superclass,selector);
+
+        NSCAssert(NULL != method,
+                  @"Selector %@ not found in %@ methods of class %@.",
+                  NSStringFromSelector(selector),
+                  class_isMetaClass(superclass) ? @"class" : @"instance",
+                  superclass);
+
+        IMP imp = method_getImplementation(method);
         return imp;
     };
 
