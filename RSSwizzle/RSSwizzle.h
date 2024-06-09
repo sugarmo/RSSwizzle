@@ -23,6 +23,8 @@
 /// May be used only in RSSwizzleInstanceMethod or RSSwizzleClassMethod macros.
 #define RSSWCallOriginal(arguments...) _RSSWCallOriginal(arguments)
 
+#define RSSWCallSuper(arguments...) _RSSWCallSuper(arguments)
+
 #pragma mark └ Swizzle Instance Method
 
 /**
@@ -372,3 +374,9 @@ typedef NS_ENUM(NSUInteger, RSSwizzleMode) {
                                          getOriginalImplementation])(self, \
                                                                      selector_, \
                                                                      ##arguments)
+
+#define _RSSWCallSuper(arguments...) \
+    ((__typeof(originalImplementation_))[swizzleInfo \
+                                         getSuperImplementation])(self, \
+                                                                  selector_, \
+                                                                  ##arguments)
