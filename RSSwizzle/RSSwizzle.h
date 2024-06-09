@@ -154,10 +154,10 @@ typedef void (*RSSwizzleOriginalIMP)(void /* id, SEL, ... */ );
  
  @return A function pointer to the original implementation of the swizzled method.
  */
--(RSSwizzleOriginalIMP)getOriginalImplementation;
+-(RSSwizzleOriginalIMP)getOriginalImplementation NS_SWIFT_NAME(originalImplementation());
 
 
--(RSSwizzleOriginalIMP)getSuperImplementation;
+-(RSSwizzleOriginalIMP)getSuperImplementation NS_SWIFT_NAME(superImplementation());
 
 /// The selector of the swizzled method.
 @property (nonatomic, readonly) SEL selector;
